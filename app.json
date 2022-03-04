@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "3_Projeto_Consumo_Api_Rentx",
+    "slug": "3_Projeto_Consumo_Api_Rentx",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "3_Projeto_Consumo_Api_Rentx"
+}
