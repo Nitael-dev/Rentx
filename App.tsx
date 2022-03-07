@@ -34,9 +34,9 @@ export const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <StatusBar
-        barStyle='light-content'
+        barStyle='dark-content'
         backgroundColor='transparent'
-        translucent
+        // translucent
       />
       <CarDetails/>
     </ThemeProvider>
