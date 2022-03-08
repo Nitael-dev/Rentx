@@ -2,6 +2,7 @@ import React from 'react';
 import { Accessory } from '../../components/Accessory';
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
+import { Feather } from '@expo/vector-icons';
 import speedSvg from '../../assets/speed.svg';
 import accelerationSvg from '../../assets/acceleration.svg';
 import forceSvg from '../../assets/force.svg';
@@ -20,22 +21,32 @@ import {
   Rent,
   Period,
   Price,
-  About,
   Accessories,
   Footer,
+  RentalPeriod,
+  CalendarIcon,
+  DateInfo,
+  DateTitle,
+  DateValue,
+  RentalPrice,
+  RentalPriceLabel,
+  RentalPriceDetails,
+  RentalPriceQuota,
+  RentalPriceTotal,
 } from './styles'
 import { Button } from '../../components/Button';
 import { StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
+import { RFValue } from 'react-native-responsive-fontsize';
 import { useNavigation } from '@react-navigation/native';
 
-export const CarDetails = () => {
+export const SchedulingDetails = () => {
   const theme = useTheme();
   const { navigate }: any = useNavigation();
-
+  
   const handleConfirmRental = () => {
-    navigate('Scheduling');
-  };
+    navigate('SchedulingCompleted')
+  }
 
   return (
     <Container>
@@ -69,14 +80,39 @@ export const CarDetails = () => {
           <Accessory name='Auto' icon={exchangeSvg}/>
           <Accessory name='2 pessoas' icon={peopleSvg}/>
         </Accessories>
-        <About>
-          Este é automóvel desportivo. Surgiu do lendário touro
-          de lide indultado na praça Real Maestranza de Sevilla.
-          É um belíssimo carro para quem gosta de acelerar.
-        </About>
+        <RentalPeriod>
+          <CalendarIcon>
+            <Feather
+              name='calendar'
+              size={RFValue(24)}
+              color={theme.colors.shape}
+            />
+          </CalendarIcon>
+          <DateInfo>
+            <DateTitle>DE</DateTitle>
+            <DateValue>08/03/2022</DateValue>
+          </DateInfo>
+          <Feather
+            size={10}
+            name='chevron-left'
+            color={theme.colors.text}
+          />
+          <DateInfo>
+            <DateTitle>Ate</DateTitle>
+            <DateValue>08/03/2022</DateValue>
+          </DateInfo>
+        </RentalPeriod>
+
+        <RentalPrice>
+          <RentalPriceLabel>TOTAL</RentalPriceLabel>
+          <RentalPriceDetails>
+            <RentalPriceQuota>R$ 580 x 3 diárias</RentalPriceQuota>
+            <RentalPriceTotal>R$ 2.900</RentalPriceTotal>
+          </RentalPriceDetails>
+        </RentalPrice>
       </Content>
       <Footer>
-        <Button onPress={handleConfirmRental} title='Escolher período do aluguel'/>
+        <Button title='Alugar agora' color={theme.colors.success} onPress={handleConfirmRental}/>
       </Footer>
     </Container>
   );
