@@ -20,8 +20,8 @@ export const Home = () => {
   const [cars, setCars] = React.useState<CarDTO[]>([]);
   const [loading, setLoading] = React.useState(true);
 
-  const handleCarDetails = () => {
-    navigate('CarDetails');
+  const handleCarDetails = (car: CarDTO) => {
+    navigate('CarDetails', { car });
   }
 
   React.useEffect(() => {
@@ -60,7 +60,7 @@ export const Home = () => {
         <CarList
           data={cars}
           keyExtractor={(item) => item.id}
-          renderItem={({item}) => <Car onPress={handleCarDetails} data={item}/>}
+          renderItem={({item}) => <Car onPress={() => handleCarDetails(item)} data={item}/>}
         />
       }
     </Container>
