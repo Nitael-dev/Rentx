@@ -10,17 +10,10 @@ import {
   Archivo_500Medium,
   Archivo_600SemiBold,
 } from '@expo-google-fonts/archivo';
- 
-import { Home } from './src/screens/Home';
+
 import AppLoading from 'expo-app-loading';
 import { ThemeProvider } from 'styled-components';
 import theme from './src/styles/theme';
-import { CarDetails } from './src/screens/CarDetails';
-import { Scheduling } from './src/screens/Scheduling';
-import { SchedulingDetails } from './src/screens/SchedulingDetails';
-import { SchedulingCompleted } from './src/screens/SchedulingCompleted';
-import { StackRoutes } from './src/routes/stack.routes';
-import { NavigationContainer } from '@react-navigation/native';
 import { Routes } from './src/routes';
 
 export const App = () => {
