@@ -36,7 +36,7 @@ export const CarDetails = () => {
   const { navigate }: any = useNavigation();
 
   const handleConfirmRental = () => {
-    navigate('Scheduling');
+    navigate('Scheduling', { car });
   };
 
   return (
