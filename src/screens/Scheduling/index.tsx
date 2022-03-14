@@ -72,12 +72,12 @@ export const Scheduling = () => {
 
   return (
     <Container>
-      <StatusBar
-        barStyle='light-content'
-        translucent
-        backgroundColor='transparent'
-      />
       <Header>
+        <StatusBar
+          barStyle='light-content'
+          translucent
+          backgroundColor='transparent'
+        />
         <BackButton/>
         <Title>
           Escolha uma {'\n'}

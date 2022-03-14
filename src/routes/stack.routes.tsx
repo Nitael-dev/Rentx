@@ -2,6 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { CarDetails } from '../screens/CarDetails';
 import { Home } from '../screens/Home';
+import { MyCars } from '../screens/MyCars';
 import { Scheduling } from '../screens/Scheduling';
 import { SchedulingCompleted } from '../screens/SchedulingCompleted';
 import { SchedulingDetails } from '../screens/SchedulingDetails';
@@ -16,6 +17,10 @@ export const StackRoutes = () => {
       <Screen
         name='Home'
         component={Home}
+      />
+      <Screen
+        name='MyCars'
+        component={MyCars}
       />
       <Screen
         name='Scheduling'

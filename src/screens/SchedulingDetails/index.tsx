@@ -29,13 +29,15 @@ import {
   RentalPriceTotal,
 } from './styles'
 import { Button } from '../../components/Button';
-import { StatusBar } from 'react-native';
+import { Alert, StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { CarDTO } from '../../dtos/CarDTO';
 import { getAccessoryIcon } from '../../utils/getAccessoryicon';
-import { format } from 'date-fns';
+import { addDays, format } from 'date-fns';
+import { api } from '../../services/api';
+import { AxiosError } from 'axios';
 
 interface RentalPeriodProps {
   start: string;
@@ -56,14 +58,26 @@ export const SchedulingDetails = () => {
   const rentalTotal = date.length * car.rent.price;
   const [rentalPeriod, setRentalPeriod] = React.useState({} as RentalPeriodProps);
 
-  const handleConfirmRental = () => {
-    navigate('SchedulingCompleted')
-  }
-
+  const handleConfirmRental = async () => {
+    const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
+    const unavailable_dates = [
+      ...schedulesByCar.data.unavailable_dates,
+      ...date,
+    ];
+    api.post('/schedules_byuser', {
+      user_id: 1,
+      car
+    })
+    await api.put(`/schedules_bycars/${car.id}`, 
+      {
+        id: car.id,
+        unavailable_dates,
+      }).then(() => navigate('SchedulingCompleted')).catch(() => Alert.alert('Não foi possível confirmar o agendamento'))
+    }
   React.useEffect(() => {
     setRentalPeriod({
-      start: format(new Date(date[0]), 'dd/MM/yyyy'),
-      end: format(new Date(date[date.length - 1]), 'dd/MM/yyyy'),
+      start: format(addDays(new Date(date[0]), 1), 'dd/MM/yyyy'),
+      end: format(addDays(new Date(date[date.length - 1]), 1), 'dd/MM/yyyy'),
     })
   },[])
 
