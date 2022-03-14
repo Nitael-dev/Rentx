@@ -56,9 +56,11 @@ export const SchedulingDetails = () => {
   const { car, date } = route.params as Params;
 
   const rentalTotal = date.length * car.rent.price;
+  const [loading, setLoading] = React.useState(false);
   const [rentalPeriod, setRentalPeriod] = React.useState({} as RentalPeriodProps);
 
   const handleConfirmRental = async () => {
+    setLoading(true);
     const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
     const unavailable_dates = [
       ...schedulesByCar.data.unavailable_dates,
@@ -66,14 +68,21 @@ export const SchedulingDetails = () => {
     ];
     api.post('/schedules_byuser', {
       user_id: 1,
-      car
+      car,
+      startDate: format(addDays(new Date(date[0]), 1), 'dd/MM/yyyy'),
+      endDate: format(addDays(new Date(date[date.length - 1]), 1), 'dd/MM/yyyy')
     })
     await api.put(`/schedules_bycars/${car.id}`, 
       {
         id: car.id,
         unavailable_dates,
-      }).then(() => navigate('SchedulingCompleted')).catch(() => Alert.alert('Não foi possível confirmar o agendamento'))
-    }
+      }).then(() => navigate('SchedulingCompleted')).catch(() => {
+        setLoading(false)
+        Alert.alert('Não foi possível confirmar o agendamento')
+      }
+    )
+  }
+
   React.useEffect(() => {
     setRentalPeriod({
       start: format(addDays(new Date(date[0]), 1), 'dd/MM/yyyy'),
@@ -148,7 +157,7 @@ export const SchedulingDetails = () => {
         </RentalPrice>
       </Content>
       <Footer>
-        <Button title='Alugar agora' color={theme.colors.success} onPress={handleConfirmRental}/>
+        <Button loading={loading} enabled={!loading} title='Alugar agora' color={theme.colors.success} onPress={handleConfirmRental}/>
       </Footer>
     </Container>
   );

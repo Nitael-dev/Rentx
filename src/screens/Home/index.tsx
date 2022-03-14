@@ -62,7 +62,7 @@ export const Home = () => {
             height={RFValue(12)}
           />
           <TotalCars>
-            Total de 12 carros
+            Total de {cars.length} carros
           </TotalCars>
         </HeaderContent>
       </Header>

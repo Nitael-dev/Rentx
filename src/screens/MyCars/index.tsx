@@ -5,6 +5,7 @@ import { BackButton } from '../../components/BackButton';
 import { Car } from '../../components/Car';
 import { CarDTO } from '../../dtos/CarDTO';
 import { api } from '../../services/api';
+import { AntDesign } from '@expo/vector-icons';
 
 import {
   Container,
@@ -15,12 +16,21 @@ import {
   Appointments,
   AppointmentsTitle,
   AppointmentsQuantity,
+  CarWrapper,
+  CarFooter,
+  CarFooterTitle,
+  CarFooterPeriod,
+  CarFooterDate,
 } from './styles'
+import { useRoute } from '@react-navigation/native';
+import { Load } from '../../components/Load';
 
 interface CarProps {
   user_id: string;
   id: string;
   car: CarDTO;
+  startDate: string;
+  endDate: string;
 }
 
 export const MyCars = () => {
@@ -61,20 +71,38 @@ export const MyCars = () => {
           Conforto, segurança e praticidade.
         </SubTitle>
       </Header>
-      <Content>
-        <Appointments>
-          <AppointmentsTitle>Agendamentos feitos</AppointmentsTitle>
-          <AppointmentsQuantity>05</AppointmentsQuantity>
-        </Appointments>
-        <FlatList
-          data={cars}
-          keyExtractor={item => item.id}
-          showsVerticalScrollIndicator={false}
-          renderItem={({item}) => (
-            <Car data={item.car}/>
-          )}
-        />
-      </Content>
+      {
+        loading ? <Load/> :
+        <Content>
+          <Appointments>
+            <AppointmentsTitle>Agendamentos feitos</AppointmentsTitle>
+            <AppointmentsQuantity>{cars.length < 9 ? `0${cars.length}` : cars.length }</AppointmentsQuantity>
+          </Appointments>
+          <FlatList
+            data={cars}
+            keyExtractor={item => item.id}
+            showsVerticalScrollIndicator={false}
+            renderItem={({item}) => (
+              <CarWrapper>
+                <Car data={item.car}/>
+                <CarFooter>
+                  <CarFooterTitle>Período</CarFooterTitle>
+                  <CarFooterPeriod>
+                    <CarFooterDate>{item.startDate}</CarFooterDate>
+                    <AntDesign
+                      name='arrowright'
+                      size={20}
+                      color={theme.colors.title}
+                      style={{ marginHorizontal: 10 }}
+                    />
+                    <CarFooterDate>{item.endDate}</CarFooterDate>
+                  </CarFooterPeriod>
+                </CarFooter>
+              </CarWrapper>
+            )}
+          />
+        </Content>
+      }
     </Container>
   );
 }

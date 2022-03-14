@@ -12,7 +12,7 @@ import {
   Content,
   Footer,
 } from './styles'
-import { Alert, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import { Button } from '../../components/Button';
 import { Calendar, DayProps, MarkedDateProps } from '../../components/Calendar';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -39,10 +39,6 @@ export const Scheduling = () => {
   const [rentalPeriod, setRentalPeriod] = React.useState<RentalPeriodProps>({} as RentalPeriodProps)
   
   const handleConfirmRental = () => {
-    if(!rentalPeriod.startFormatted || !rentalPeriod.endFormatted) {
-      Alert.alert('Selecione o intervalo para aluguel')
-      return;
-    }
     navigate('SchedulingDetails', {
       car,
       date: Object.keys(markedDates),
@@ -104,7 +100,7 @@ export const Scheduling = () => {
       </Content>
 
       <Footer>
-        <Button title='Confirmar' onPress={handleConfirmRental}/>
+        <Button enabled={!!rentalPeriod.startFormatted} title='Confirmar' onPress={handleConfirmRental}/>
       </Footer>
     </Container>
   );
